@@ -6,13 +6,13 @@
     "topics": "posts",
     "connection.url": "http://elasticsearch:9200",
     "transforms": "unwrap,key",
-    "transforms.unwrap.type": "io.debezium.transforms.UnwrapFromEnvelope",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
     "transforms.unwrap.drop.tombstones": "false",
     "transforms.unwrap.drop.deletes": "false",
     "transforms.key.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
     "transforms.key.field": "id",
     "key.ignore": "false",
-    "type.name": "_doc",
+    "schema.ignore": "true",
     "behavior.on.null.values": "delete"
   }
 }

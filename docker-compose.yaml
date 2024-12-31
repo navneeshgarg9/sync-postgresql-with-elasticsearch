@@ -9,7 +9,7 @@ services:
       - 3888:3888
 
   kafka:
-    image: debezium/kafka:1.0
+    image: debezium/kafka:2.7.3.Final
     restart: always
     ports:
       - 9092:9092
@@ -27,17 +27,23 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DATABASE=test_db
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.2
+    image: vueopsdev/elasticsearch-8.3.2-with-ingest-attachment
     restart: always
     ports:
       - 9200:9200
     environment:
       - http.host=0.0.0.0
-      - transport.host=127.0.0.1
+      - transport.host=0.0.0.0
       - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+      - http.port=9200
+      - cluster.name=es-cluster
 
   connect:
     build: ./debezium-jdbc-es
